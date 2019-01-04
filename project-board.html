@@ -1,6 +1,8 @@
+<!DOCTYPE html>
 <html>
   <head>
     <title>GitHub Project Board</title>
+    <meta charset="UTF-8">
     <link rel="stylesheet" style="text/css" href="style.css" />
   </head>
   <body>
@@ -43,7 +45,7 @@
             </div>
           </div>
       </div>
-    
+
       <div id="stage-2" class="stageColumn col in-progress-gradient in-progress-border" data-track="in-progress" draggable="true">
         <div class="colHeader">
           <div id="total-2" class="total in-progress-border"></div><h2 class="col-name">In Progress</h2>
@@ -54,7 +56,7 @@
             <img src="images/noun_ellipsis_869758 no attribute.svg" alt="Open column edit menu" />
           </button>
         </div>
-      
+
       <div id="cards-2" class="cardsContainer" data-track="in-progress">
         <div id="card-4" class="card" draggable="true" data-card-track="in-progress">
           <p id="card-text-4">4</p>
@@ -74,7 +76,7 @@
             <img src="images/noun_ellipsis_869758 no attribute.svg" alt="Open column edit menu" />
           </button>
         </div>
-      
+
       <div id="cards-3" class="cardsContainer" data-track="done">
         <div id="card-5" class="card" draggable="true" data-card-track="done">
           <p id="card-text-5">5</p>
@@ -103,17 +105,19 @@
       </div>
       <div id="submenuBody"></div>
     </div>
-    
-    <details>
-      <summary>Citations and Attributions</summary>
+
+    <div class="attributions">
+      <h3>Citations and Attributions</h3>
       <h4>Radial Gradients</h4>
       <p>Wonderful CSS linear gradients sourced from <a href="https://webkul.github.io/coolhue/">CoolHue 2.0 - Coolest Gradient Hues and Swatches</a>.</p>
-      
+
       <h4>Icons</h4>
       <p>ellipsis by Thomas' designs from the Noun Project. <a href="https://thenounproject.com/icon/869758/" target="_blank">Direct Link</a></p>
       <p>Plus by Thomas' designs from the Noun Project. <a href="https://thenounproject.com/icon/869750/" target="_blank">Direct Link</a></p>
-    </details>
-    
+    </div>
+
+
+
     <div id="overlay" class="hidden"></div>
     <script src="board.js"></script>
   </body>

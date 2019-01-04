@@ -1,10 +1,10 @@
-const storage = window.localStorage;
+//const storage = localStorage;
 const stageBar = document.getElementById('stageBar');
 const canUseStorage = storageAvailable('localStorage');
 let projectDataAvailable;
 if (canUseStorage) {
-  if (storage.getItem('projectStore')) {
-    let projectStore = JSON.parse(storage.getItem('projectStore'));
+  if (localStorage.getItem('projectStore')) {
+    let projectStore = JSON.parse(localStorage.getItem('projectStore'));
     if(projectStore.title !== '') {
      printProjectTitle(projectStore.title);
     }
@@ -22,11 +22,25 @@ updateProgress();
 document.addEventListener('dragstart', function(event){
     beingDragged(event);
 });
+document.addEventListener('dragover', function(event){
+  let dragging = document.querySelector('.dragging');
+  if (dragging.classList.contains('card')) {
+    cardDrag(event);
+  }
+});
+document.addEventListener('drop', function(event){
+  cardDrop(event);
+});
 document.addEventListener('dragend', function(event){
+  dragEnd(event);
+  updateProgress();
+})
+/*document.addEventListener('dragend', function(event){
     dragEnd(event);
     updateProgress();
 });
 document.addEventListener('dragover', function(event){
+  console.log('dragover')
   const beingDragged = document.querySelector(".dragging");
   if (event.target.matches('.card')) {
         if (beingDragged.classList.contains('card')) {
@@ -43,18 +57,72 @@ document.addEventListener('dragover', function(event){
       allowDrop(event);
     }
   }
-});
-
+});*/
 function beingDragged(ev) {
+  ev.dataTransfer.setData("text/plain", ev.target.id);
   const draggedEl = ev.target;
   draggedEl.classList.add("dragging");
 }
+function cardDrag(ev) {
+  ev.preventDefault();
+  // Set the dropEffect to move
+  ev.dataTransfer.dropEffect = "move"
+  let data = ev.dataTransfer.getData("text/plain");
+  let draggedEl;
+  if (data !== '') {
+    // For Firefox
+    draggedEl = document.getElementById(data);
+  } else {
+    //For Chrome
+    draggedEl = document.querySelector('.dragging');
+  }
+
+  console.log(data)
+
+  const dragOver = ev.target;
+  const dragOverParent = dragOver.parentElement;
+  const beingDragged = document.querySelector(".dragging");
+  const draggedParent = beingDragged.parentElement;
+  const project = document.getElementById("project");
+  const draggedIndex = whichChild(beingDragged);
+  const dragOverIndex = whichChild(dragOver);
+  if (dragOver.classList.contains('card')) {
+    if (draggedParent === dragOverParent) {
+      if (draggedIndex < dragOverIndex) {
+        draggedParent.insertBefore(dragOver, draggedEl);
+      }
+      if (draggedIndex > dragOverIndex) {
+        draggedParent.insertBefore(dragOver, draggedEl.nextSibling);
+      }
+    }
+    if (draggedParent !== dragOverParent) {
+      console.log(ev.target.parentNode)
+      dragOverParent.insertBefore(draggedEl, dragOver);
+    }
+  }
+
+  if (dragOver.classList.contains('cardsContainer')) {
+    /*if (dragOver.id != beingDragged.parentNode.id) {
+      dragOver.appendChild(draggedEl);
+      beingDragged.setAttribute('data-card-track', dragOverParent.getAttribute('data-track'));
+    }*/
+    colDraggedOver(ev);
+  }
+}
+function cardDrop(ev) {
+
+ ev.preventDefault();
+ // Get the id of the target and add the moved element to the target's DOM
+
+}
+
 function dragEnd(ev) {
   const draggedEl = ev.target;
   draggedEl.classList.remove("dragging");
 }
 function allowDrop(ev) {
   ev.preventDefault();
+  ev.dataTransfer.dropEffect = "move"
   const dragOver = ev.target;
   const dragOverParent = dragOver.parentElement;
   const beingDragged = document.querySelector(".dragging");
@@ -75,20 +143,30 @@ function allowDrop(ev) {
     beingDragged.setAttribute('data-card-track', dragOverParent.getAttribute('data-track'));
   }
 }
-function colDraggedOver(event) {
-  const dragOver = event.target;
+function colDraggedOver(ev) {
+  ev.dataTransfer.dropEffect = "move"
+  const dragOver = ev.target;
   const updatedTrackng = dragOver.getAttribute('data-track');
-  const beingDragged = document.querySelector(".dragging");
-  const draggedParent = beingDragged.parentElement;
+  //const beingDragged = document.querySelector(".dragging");
+  let data = ev.dataTransfer.getData("text/plain");
+  let draggedEl;
+  if (data !== '') {
+    // For Firefox
+    draggedEl = document.getElementById(data);
+  } else {
+    //For Chrome
+    draggedEl = document.querySelector('.dragging');
+  }
+  const draggedParent = draggedEl.parentElement;
   if (draggedParent.id !== dragOver.id && draggedParent.classList.contains('cardsContainer') && dragOver.classList.contains('cardsContainer')) {
-    if (dragOver.childElementCount === 0 || event.clientY > dragOver.children[dragOver.childElementCount - 1].offsetTop) {
-      dragOver.appendChild(beingDragged);
-      beingDragged.setAttribute('data-card-track', updatedTrackng);
+    let dragOverChildCount = dragOver.childElementCount;
+    let dragOverLastChild = dragOver.children[dragOver.childElementCount - 1];
+    if (dragOverChildCount === 0 || ev.clientY > dragOverLastChild.offsetTop + dragOverLastChild.offsetHeight ) {
+      console.log('child ')
+      dragOver.appendChild(draggedEl);
+      dragOver.setAttribute('data-card-track', updatedTrackng);
     }
   }
-}
-function drag(ev) {
-  ev.dataTransfer.setData("text", ev.target.id);
 }
 function whichChild(el) {
   let i = 0;
@@ -233,11 +311,11 @@ function storageAvailable(type) {
 function updateProjectData() {
   const allCols = document.getElementsByClassName('col');
   let projectStore;
-  console.log(projectDataAvailable)
+  //console.log(projectDataAvailable)
   if (projectDataAvailable) {
-    projectStore = JSON.parse(storage.getItem('projectStore'));
+    projectStore = JSON.parse(localStorage.getItem('projectStore'));
   }
-  console.log(projectStore)
+  //console.log(projectStore)
   let update;
   let projectData = [];
   for (let i = 0; i < allCols.length; i++) {
@@ -246,7 +324,7 @@ function updateProjectData() {
     let colNumber = getColNumber(allCols[i].id);
     let colTitle = allCols[i].querySelector('.col-name').innerText;
     let colTracking = allCols[i].getAttribute('data-track');
-    
+
     for (let k = 0; k < cards.length; k++) {
       let cardNumber = getColNumber(cards[k].id);
       let cardText = cards[k].querySelector('#card-text-' + cardNumber).innerText;
@@ -261,12 +339,12 @@ function updateProjectData() {
   } else {
     update = new Project('', projectData)
   }
-  console.log(update)
-  storage.setItem('projectStore', JSON.stringify(update));
+  //console.log(update)
+  localStorage.setItem('projectStore', JSON.stringify(update));
 }
 function buildRetrievedProject() {
-  const projectData = JSON.parse(storage.getItem('projectStore'));
-  console.log(projectData)
+  const projectData = JSON.parse(localStorage.getItem('projectStore'));
+  //console.log(projectData)
   const colContainer = document.getElementById('columnsContainer');
   const columns = document.getElementsByClassName('col');
   while(columns.length > 0) {
@@ -316,15 +394,15 @@ function getColNumber(str) {
   return slicedStr;
 }
 function saveProjectTitle() {
-  let projectStore = JSON.parse(storage.getItem('projectStore'));
+  let projectStore = JSON.parse(localStorage.getItem('projectStore'));
   let projectTitle = document.getElementById('project-title-text').value;
   let update;
   if (projectTitle === '') {
     alert('Please enter a project title');
   } else {
     update = new Project(projectTitle, projectStore.data);
-    console.log(update)
-    storage.setItem('projectStore', JSON.stringify(update));
+    //console.log(update)
+    localStorage.setItem('projectStore', JSON.stringify(update));
     printProjectTitle(projectTitle);
   }
 }
@@ -337,7 +415,7 @@ function editProjectTitle() {
   editTitleBtn.setAttribute('hidden', true);
   titleInput.removeAttribute('hidden');
   saveTitleBtn.removeAttribute('hidden');
-  titleInput.value = storage.getItem('projectTitle');
+  titleInput.value = localStorage.getItem('projectTitle');
   titleInput.focus();
 }
 function printProjectTitle(title) {
@@ -371,8 +449,8 @@ function openEditSubMenu(btn, elementNumber) {
   submenu.removeAttribute('hidden');
   submenuPosX = btn.offsetLeft - (submenu.offsetWidth * 0.9) + 15;
   submenuPosY = btn.offsetTop + 30;
-  submenu.style.left = submenuPosX;
-  submenu.style.top = submenuPosY;
+  submenu.style.left = submenuPosX + 'px';
+  submenu.style.top = submenuPosY + 'px';
 }
 
 function openTrackingOptions(){
@@ -540,14 +618,14 @@ function updateCardText(card) {
 function deleteCard(card) {
   let deleteConfirm = confirm('This will remove this card from the project');
   const cardContainer = document.getElementById('cards-' + card);
-  console.log(cardContainer)
+  //console.log(cardContainer)
   let cardToDelete = document.getElementById('card-' + card);
   if (deleteConfirm) {
     cardToDelete.parentNode.removeChild(cardToDelete);
     closeSubMenu();
     updateProgress();
   } else {
-    console.log('nowt deleted');
+    //console.log('nowt deleted');
   }
 }
 function openModal() {

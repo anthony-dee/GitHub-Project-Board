@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Rubik:400,500');
 * {
   outline: 0;
 }
@@ -8,7 +9,7 @@ show {
   display: none !important;
 }
 body {
-  font-family: Impact, Charcoal, sans-serif;
+  font-family: 'Rubik', sans-serif;
 }
 h1 {
   margin: 0.25em 0;
@@ -25,6 +26,8 @@ p {
 }
 button {
   border: 1px solid grey;
+  font-family: inherit;
+  font-size: 14px;
 }
 button:active {
   transform: translateY(2px);
@@ -47,7 +50,7 @@ button[disabled] {
   height: 20px;
   background-color: #E9E9E9;
   margin: 10px 0;
-  border-radius: 4px;
+  border-radius: 10px;
   overflow: hidden;
 }
 .split {
@@ -57,11 +60,12 @@ button[disabled] {
   background-color: lightgrey;
   margin-right: 15px;
   padding: 5px;
+  border: 2px solid grey; 
   border-radius: 5px;
   width: 350px;
-  height: 80%;
+  height: 400px;
 }
-.to-do-gradient {
+.to-do-gradient, {
   background-image: linear-gradient( 135deg, #D2D2D2 10%, #BDBDBD 100%);
 }
 .to-do-border {
@@ -158,7 +162,7 @@ button[disabled] {
   background-color: white;
   margin-right: 10px;
   padding: 4px 8px;
-  border-radius: 20px;
+  border-radius: 50%;
   font-weight: bold;
 }
 #new-col-title {
@@ -224,7 +228,7 @@ button[disabled] {
   padding: 5px 10px;
   cursor: pointer;
 }
-.optionDiv > *, #choose-tracking > *, .col-btn img, .card-btn img {
+.optionDiv > *, #choose-tracking > *, .col-btn img, .card-btn img, .col-btn svg, .card-btn svg {
   pointer-events: none;
 }
 .checkDiv {
@@ -242,7 +246,7 @@ button[disabled] {
   cursor: pointer;
 }
 .confirm-btn {
-  background-color: LIMEGREEN;
+  background-color: #4CAF50;
   color: white;
 }
 .delete-col-btn {
@@ -261,23 +265,11 @@ button[disabled] {
   right: 0;
   z-index: 50;
 }
-details {
+.attributions {
   width: 1122px;
   margin-left: 5px;
   border: 1px solid #aaa;
   border-radius: 4px;
   padding: .5em .5em 0;
   box-sizing: border-box;
-}
-summary {
-  font-weight: bold;
-  margin: -.5em -.5em 0;
-  padding: .5em;
-}
-details[open] {
-  padding: .5em;
-}
-details[open] summary {
-  border-bottom: none;
-  margin-bottom: .5em;
 }
