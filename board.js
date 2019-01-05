@@ -317,7 +317,7 @@ function buildRetrievedProject() {
         <div class="colHeader">
           <div id="total-${col.colNumber}" class="total ${col.tracking}-border"></div><h2 class="col-name">${col.colTitle}</h2>
           <button id="addCard-${col.colNumber}" class="add-card-btn col-btn" title="Add a card to this column">
-            <img src="images/noun_Plus_869750 no attribute.svg" alt="Add a card to this column" />
+            <img src="https://res.cloudinary.com/anthony-dee/image/upload/v1546548847/noun_Plus_869750_no_attribute.svg" alt="Add a card to this column" />
           </button>
           <button id="open-col-menu-${col.colNumber}" class="open-col-menu-btn col-btn" title="Open column edit menu">
             <img src="images/noun_ellipsis_869758 no attribute.svg" alt="Open column edit menu" />
@@ -512,7 +512,7 @@ function addColumn(newColTitle, newColTracking) {
     <div class="colHeader">
       <div id="total-${newColNumber}" class="total ${newColTracking}-border">0</div><h2 class="col-name">${newColTitle}</h2>
       <button id="addCard-${newColNumber}" class="add-card-btn col-btn" title="Add a card to this column">
-        <img src="images/noun_Plus_869750 no attribute.svg" alt="Add a card to this column" />
+        <img src="https://res.cloudinary.com/anthony-dee/image/upload/v1546548847/noun_Plus_869750_no_attribute.svg" alt="Add a card to this column" />
       </button>
       <button id="open-col-menu-${newColNumber}" class="open-col-menu-btn col-btn" title="Open column edit menu">
         <img src="images/noun_ellipsis_869758 no attribute.svg" alt="Open column edit menu" />
