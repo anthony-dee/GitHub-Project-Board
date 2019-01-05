@@ -18,161 +18,6 @@ else {
   alert('localStorage is not available. As a result, project data will cannot be saved. For project reloading between sessions, please allow localStorage in your browser settings or update your browser version.');
 }
 updateProgress();
-
-document.addEventListener('dragstart', function(event){
-    beingDragged(event);
-});
-document.addEventListener('dragover', function(event){
-  let dragging = document.querySelector('.dragging');
-  if (dragging.classList.contains('card')) {
-    cardDrag(event);
-  }
-});
-document.addEventListener('drop', function(event){
-  cardDrop(event);
-});
-document.addEventListener('dragend', function(event){
-  dragEnd(event);
-  updateProgress();
-})
-/*document.addEventListener('dragend', function(event){
-    dragEnd(event);
-    updateProgress();
-});
-document.addEventListener('dragover', function(event){
-  console.log('dragover')
-  const beingDragged = document.querySelector(".dragging");
-  if (event.target.matches('.card')) {
-        if (beingDragged.classList.contains('card')) {
-          allowDrop(event);
-        }
-  }
-  if (event.target.matches('.cardsContainer')) {
-    if (beingDragged.classList.contains('card')) {
-          colDraggedOver(event);
-    }
-  }
-  if (event.target.matches('.col')) {
-    if (beingDragged.classList.contains('col')) {
-      allowDrop(event);
-    }
-  }
-});*/
-function beingDragged(ev) {
-  ev.dataTransfer.setData("text/plain", ev.target.id);
-  const draggedEl = ev.target;
-  draggedEl.classList.add("dragging");
-}
-function cardDrag(ev) {
-  ev.preventDefault();
-  // Set the dropEffect to move
-  ev.dataTransfer.dropEffect = "move"
-  let data = ev.dataTransfer.getData("text/plain");
-  let draggedEl;
-  if (data !== '') {
-    // For Firefox
-    draggedEl = document.getElementById(data);
-  } else {
-    //For Chrome
-    draggedEl = document.querySelector('.dragging');
-  }
-
-  console.log(data)
-
-  const dragOver = ev.target;
-  const dragOverParent = dragOver.parentElement;
-  const beingDragged = document.querySelector(".dragging");
-  const draggedParent = beingDragged.parentElement;
-  const project = document.getElementById("project");
-  const draggedIndex = whichChild(beingDragged);
-  const dragOverIndex = whichChild(dragOver);
-  if (dragOver.classList.contains('card')) {
-    if (draggedParent === dragOverParent) {
-      if (draggedIndex < dragOverIndex) {
-        draggedParent.insertBefore(dragOver, draggedEl);
-      }
-      if (draggedIndex > dragOverIndex) {
-        draggedParent.insertBefore(dragOver, draggedEl.nextSibling);
-      }
-    }
-    if (draggedParent !== dragOverParent) {
-      console.log(ev.target.parentNode)
-      dragOverParent.insertBefore(draggedEl, dragOver);
-    }
-  }
-
-  if (dragOver.classList.contains('cardsContainer')) {
-    /*if (dragOver.id != beingDragged.parentNode.id) {
-      dragOver.appendChild(draggedEl);
-      beingDragged.setAttribute('data-card-track', dragOverParent.getAttribute('data-track'));
-    }*/
-    colDraggedOver(ev);
-  }
-}
-function cardDrop(ev) {
-
- ev.preventDefault();
- // Get the id of the target and add the moved element to the target's DOM
-
-}
-
-function dragEnd(ev) {
-  const draggedEl = ev.target;
-  draggedEl.classList.remove("dragging");
-}
-function allowDrop(ev) {
-  ev.preventDefault();
-  ev.dataTransfer.dropEffect = "move"
-  const dragOver = ev.target;
-  const dragOverParent = dragOver.parentElement;
-  const beingDragged = document.querySelector(".dragging");
-  const draggedParent = beingDragged.parentElement;
-  const project = document.getElementById("project");
-  const draggedIndex = whichChild(beingDragged);
-  const dragOverIndex = whichChild(dragOver);
-  if (draggedParent === dragOverParent) {
-    if (draggedIndex < dragOverIndex) {
-      draggedParent.insertBefore(dragOver, beingDragged);
-    }
-    if (draggedIndex > dragOverIndex) {
-      draggedParent.insertBefore(dragOver, beingDragged.nextSibling);
-    }
-  }
-  if (draggedParent !== dragOverParent) {
-    dragOverParent.insertBefore(beingDragged, dragOver);
-    beingDragged.setAttribute('data-card-track', dragOverParent.getAttribute('data-track'));
-  }
-}
-function colDraggedOver(ev) {
-  ev.dataTransfer.dropEffect = "move"
-  const dragOver = ev.target;
-  const updatedTrackng = dragOver.getAttribute('data-track');
-  //const beingDragged = document.querySelector(".dragging");
-  let data = ev.dataTransfer.getData("text/plain");
-  let draggedEl;
-  if (data !== '') {
-    // For Firefox
-    draggedEl = document.getElementById(data);
-  } else {
-    //For Chrome
-    draggedEl = document.querySelector('.dragging');
-  }
-  const draggedParent = draggedEl.parentElement;
-  if (draggedParent.id !== dragOver.id && draggedParent.classList.contains('cardsContainer') && dragOver.classList.contains('cardsContainer')) {
-    let dragOverChildCount = dragOver.childElementCount;
-    let dragOverLastChild = dragOver.children[dragOver.childElementCount - 1];
-    if (dragOverChildCount === 0 || ev.clientY > dragOverLastChild.offsetTop + dragOverLastChild.offsetHeight ) {
-      console.log('child ')
-      dragOver.appendChild(draggedEl);
-      dragOver.setAttribute('data-card-track', updatedTrackng);
-    }
-  }
-}
-function whichChild(el) {
-  let i = 0;
-  while ((el = el.previousSibling) !== null) ++i;
-  return i;
-}
 document.addEventListener('keyup', function(event){
   if (event.target.matches('#new-col-title')) {
     const input = document.getElementById('new-col-title');
@@ -260,12 +105,136 @@ document.addEventListener('click', function(event){
 	  closeAddCardForm(elementNumber);
 	}
 });
+document.addEventListener('dragstart', function(event){
+    beingDragged(event);
+});
+document.addEventListener('dragover', function(event){
+  let dragging = document.querySelector('.dragging');
+  if (dragging.classList.contains('card')) {
+    cardDrag(event);
+  }
+  if (dragging.classList.contains('col')) {
+    colDrag(event);
+  }
+});
+document.addEventListener('dragend', function(event){
+  dragEnd(event);
+});
+document.addEventListener('drop', function(event){
+  dragDrop(event);
+  //updateProgress();
+});
 
+function beingDragged(ev) {
+  ev.dataTransfer.setData("text/plain", ev.target.id);
+  const draggedEl = ev.target;
+  draggedEl.classList.add("dragging");
+}
+function cardDrag(ev) {
+  ev.preventDefault();
+  ev.dataTransfer.dropEffect = "move";
+  let data = ev.dataTransfer.getData("text/plain");
+  let draggedEl;
+  if (data !== '') { // For Firefox
+    draggedEl = document.getElementById(data);
+  } else { // For Chrome
+    draggedEl = document.querySelector('.dragging');
+  }
+  const dragOver = ev.target;
+  const dragOverParent = dragOver.parentElement;
+  const beingDragged = document.querySelector(".dragging");
+  const draggedParent = beingDragged.parentElement;
+  const project = document.getElementById("project");
+  const draggedIndex = whichChild(beingDragged);
+  const dragOverIndex = whichChild(dragOver);
+  if (dragOver.classList.contains('card')) {
+    if (draggedParent === dragOverParent) {
+      if (draggedIndex < dragOverIndex) {
+        draggedParent.insertBefore(dragOver, draggedEl);
+      }
+      if (draggedIndex > dragOverIndex) {
+        draggedParent.insertBefore(dragOver, draggedEl.nextSibling);
+      }
+    }
+    if (draggedParent !== dragOverParent) {
+      dragOverParent.insertBefore(draggedEl, dragOver);
+    }
+  }
+  if (dragOver.classList.contains('cardsContainer')) {
+    colDraggedOver(ev);
+  }
+}
+function colDrag(ev) {
+  ev.preventDefault();
+  ev.dataTransfer.dropEffect = "move";
+  const dragOver = ev.target;
+  const columnContainer = document.getElementById('columnsContainer');
+  let data = ev.dataTransfer.getData("text/plain");
+  let draggedEl;
+  if (data !== '') { // For Firefox
+    draggedEl = document.getElementById(data);
+  } else { // For Chrome
+    draggedEl = document.querySelector('.dragging');
+  }
+  const draggedIndex = whichChild(draggedEl);
+  const dragOverIndex = whichChild(dragOver);
+
+  if (draggedEl.id !== dragOver.id && dragOver.classList.contains('col')) {
+    console.log(dragOver);
+    if (draggedIndex < dragOverIndex) {
+      columnContainer.insertBefore(dragOver, draggedEl);
+    }
+    if (draggedIndex > dragOverIndex) {
+      columnContainer.insertBefore(dragOver, draggedEl.nextSibling);
+    }
+  }
+
+}
+function dragEnd(ev) {
+  const draggedEl = ev.target;
+  const newTracking = draggedEl.parentNode.getAttribute('data-track')
+  draggedEl.classList.remove("dragging");
+  draggedEl.setAttribute('data-card-track', newTracking);
+  updateProgress();
+}
+function dragDrop(ev) {
+  ev.preventDefault();
+}
+function colDraggedOver(ev) {
+  ev.dataTransfer.dropEffect = "move"
+  const dragOver = ev.target;
+  const updatedTrackng = dragOver.getAttribute('data-track');
+  //const beingDragged = document.querySelector(".dragging");
+  let data = ev.dataTransfer.getData("text/plain");
+  let draggedEl;
+  if (data !== '') {
+    // For Firefox
+    draggedEl = document.getElementById(data);
+  } else {
+    //For Chrome
+    draggedEl = document.querySelector('.dragging');
+  }
+  const draggedParent = draggedEl.parentElement;
+  if (draggedParent.id !== dragOver.id && draggedParent.classList.contains('cardsContainer') && dragOver.classList.contains('cardsContainer')) {
+    let dragOverChildCount = dragOver.childElementCount;
+    let dragOverLastChild = dragOver.children[dragOver.childElementCount - 1];
+    if (dragOverChildCount === 0 || ev.clientY > dragOverLastChild.offsetTop + dragOverLastChild.offsetHeight ) {
+      console.log('child ')
+      dragOver.appendChild(draggedEl);
+      dragOver.setAttribute('data-card-track', updatedTrackng);
+    }
+  }
+}
+function whichChild(el) {
+  let i = 0;
+  while ((el = el.previousSibling) !== null) ++i;
+  return i;
+}
 function updateProgress() {
   const stageBar = document.getElementById('stageBar');
   const allCards = document.getElementsByClassName('card');
-  const doneCards = document.querySelectorAll('div[data-card-track="done"]');
-  const inProgressCards = document.querySelectorAll('div[data-card-track="in-progress"]');
+  const doneCards = document.querySelectorAll('.card[data-card-track="done"]');
+  const inProgressCards = document.querySelectorAll('.card[data-card-track="in-progress"]');
   const cardContainers = document.getElementsByClassName('cardsContainer');
   const totals = document.getElementsByClassName('total');
   const doneBar = document.createElement('div');
@@ -278,12 +247,12 @@ function updateProgress() {
     totals[h].innerText = cardCount;
   }
   doneBar.classList.add('done-gradient');
-  doneBar.style.width = ((200/allCards.length) * doneCards.length)+ 'px';
-  stageBar.appendChild(doneBar);
   inProgressBar.classList.add('in-progress-gradient')
-  inProgressBar.style.width = ((200/allCards.length) * inProgressCards.length)+ 'px';
+  doneBar.style.width = ((200/allCards.length) * doneCards.length) + 'px';
+  inProgressBar.style.width = ((200/allCards.length) * inProgressCards.length) + 'px';
+  stageBar.appendChild(doneBar);
   stageBar.appendChild(inProgressBar);
-  updateProjectData()
+  updateProjectData();
 }
 function storageAvailable(type) {
     try {
@@ -311,11 +280,10 @@ function storageAvailable(type) {
 function updateProjectData() {
   const allCols = document.getElementsByClassName('col');
   let projectStore;
-  //console.log(projectDataAvailable)
   if (projectDataAvailable) {
     projectStore = JSON.parse(localStorage.getItem('projectStore'));
+    console.log(projectStore.runningColCount);
   }
-  //console.log(projectStore)
   let update;
   let projectData = [];
   for (let i = 0; i < allCols.length; i++) {
@@ -335,16 +303,14 @@ function updateProjectData() {
     projectData.push(col);
   }
   if (projectDataAvailable) {
-    update = new Project(projectStore.title, projectData)
+    update = new Project(projectStore.title, projectData, projectStore.runningColCount)
   } else {
-    update = new Project('', projectData)
+    update = new Project('', projectData, allCols.length)
   }
-  //console.log(update)
   localStorage.setItem('projectStore', JSON.stringify(update));
 }
 function buildRetrievedProject() {
   const projectData = JSON.parse(localStorage.getItem('projectStore'));
-  //console.log(projectData)
   const colContainer = document.getElementById('columnsContainer');
   const columns = document.getElementsByClassName('col');
   while(columns.length > 0) {
@@ -375,9 +341,10 @@ function buildRetrievedProject() {
     ).join('')}`;
   colContainer.insertAdjacentHTML('afterbegin', projectHTML);
 }
-function Project(title, data) {
+function Project(title, data, runningColCount) {
   this.title = title;
   this.data = data;
+  this.runningColCount = runningColCount;
 }
 function Column(colNumber, colTitle, colTracking, cards) {
   this.colNumber = colNumber;
@@ -542,9 +509,11 @@ function openAddColumn(column) {
  openModal();
 }
 function addColumn(newColTitle, newColTracking) {
+  const projectStore = JSON.parse(localStorage.getItem('projectStore'));
+  console.log(projectStore.runningColCount)
   const addColDiv = document.getElementById('add-col-div');
   const currentCols = document.getElementsByClassName('stageColumn');
-  const newColNumber = currentCols.length + 1
+  const newColNumber = parseInt(projectStore.runningColCount) + 1;
   const columnHTML = `
   <div id="stage-${newColNumber}" class="stageColumn col ${newColTracking}-gradient ${newColTracking}-border" data-track="${newColTracking}" draggable="true">
     <div class="colHeader">
@@ -562,6 +531,9 @@ function addColumn(newColTitle, newColTracking) {
   `;
   addColDiv.insertAdjacentHTML('beforebegin', columnHTML)
   closeModal();
+  let update = new Project(projectStore.title, projectStore.data, newColNumber);
+  localStorage.setItem('projectStore', JSON.stringify(update));
+  console.log(JSON.parse(localStorage.getItem('projectStore')));
   updateProgress();
 }
 function openDeleteWarning(column) {

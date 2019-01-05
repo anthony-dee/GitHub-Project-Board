@@ -35,6 +35,10 @@ button:active {
 button[disabled] {
   background: darkgrey;
 }
+textarea {
+  font-family: inherit;
+  font-size: 14px;
+}
 #project {
   padding: 10px 5px;
 }
@@ -56,11 +60,11 @@ button[disabled] {
 .split {
   height: 20px;
 }
-.stageColumn {
+.col {
   background-color: lightgrey;
   margin-right: 15px;
   padding: 5px;
-  border: 2px solid grey; 
+  border: 2px solid grey;
   border-radius: 5px;
   width: 350px;
   height: 400px;
@@ -87,6 +91,7 @@ button[disabled] {
   display: flex;
   align-items: center;
   margin: 5px 10px;
+  cursor: move;
 }
 .col-btn, .card-btn {
   background: transparent;
