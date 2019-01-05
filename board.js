@@ -413,6 +413,7 @@ function openEditSubMenu(btn, elementNumber) {
   submenuPosY = btn.offsetTop + 30;
   submenu.style.left = submenuPosX + 'px';
   submenu.style.top = submenuPosY + 'px';
+  submenu.style.display = 'block';
 }
 
 function openTrackingOptions(){
@@ -451,6 +452,7 @@ function openTrackingOptions(){
   submenuPosY = (window.innerHeight/4) + buttonPressed.offsetTop + buttonPressed.offsetHeight;
   submenu.style.left = submenuPosX + 'px';
   submenu.style.top = submenuPosY + 'px';
+  submenu.style.display = 'block';
 }
 function assignNewColTracking(value, text) {
   const newColTracking = document.getElementById('new-col-tracking');
