@@ -205,6 +205,7 @@ textarea {
 }
 #sub-menu {
   position: absolute;
+  display: block;
   width: 115px;
   background-color: #ededed;
   border: 1px solid grey;
