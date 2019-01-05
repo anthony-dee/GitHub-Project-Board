@@ -455,7 +455,8 @@ function openEditSubMenu(btn, elementNumber) {
 
 function openTrackingOptions(){
   let submenuPosX, submenuPosY;
-  const buttonPressed = document.getElementById('choose-tracking')
+  const buttonPressed = document.getElementById('choose-tracking');
+  const modal = document.getElementById('modal');
   const submenu = document.getElementById('sub-menu');
   const menuHead = document.getElementById('submenuHeader');
   const menuTitle = document.getElementById('submenuTitle');
@@ -484,10 +485,10 @@ function openTrackingOptions(){
   menuHead.removeAttribute('hidden');
   submenu.removeAttribute('hidden');
   submenu.style.width = 'auto';
-  submenuPosX = ((window.innerWidth/2) - 200) + 15;
+  submenuPosX = ((window.innerWidth/2) - (modal.offsetWidth / 2) + 16);
   submenuPosY = (window.innerHeight/4) + buttonPressed.offsetTop + buttonPressed.offsetHeight;
-  submenu.style.left = submenuPosX;
-  submenu.style.top = submenuPosY;
+  submenu.style.left = submenuPosX + 'px';
+  submenu.style.top = submenuPosY + 'px';
 }
 function assignNewColTracking(value, text) {
   const newColTracking = document.getElementById('new-col-tracking');
