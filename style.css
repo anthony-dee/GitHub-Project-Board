@@ -140,11 +140,11 @@ textarea {
 }
 .cardsContainer {
   height: 90%;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .card {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   background-color: #ededed;
   margin: 10px;
   border: 2px solid #B2B2B2;

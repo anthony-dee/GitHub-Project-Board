@@ -180,7 +180,6 @@ function colDrag(ev) {
   const dragOverIndex = whichChild(dragOver);
 
   if (draggedEl.id !== dragOver.id && dragOver.classList.contains('col')) {
-    console.log(dragOver);
     if (draggedIndex < dragOverIndex) {
       columnContainer.insertBefore(dragOver, draggedEl);
     }
@@ -207,11 +206,10 @@ function colDraggedOver(ev) {
   //const beingDragged = document.querySelector(".dragging");
   let data = ev.dataTransfer.getData("text/plain");
   let draggedEl;
-  if (data !== '') {
-    // For Firefox
+  if (data !== '') {   // For Firefox
+
     draggedEl = document.getElementById(data);
-  } else {
-    //For Chrome
+  } else {   // For Chrome
     draggedEl = document.querySelector('.dragging');
   }
   const draggedParent = draggedEl.parentElement;
@@ -219,7 +217,6 @@ function colDraggedOver(ev) {
     let dragOverChildCount = dragOver.childElementCount;
     let dragOverLastChild = dragOver.children[dragOver.childElementCount - 1];
     if (dragOverChildCount === 0 || ev.clientY > dragOverLastChild.offsetTop + dragOverLastChild.offsetHeight ) {
-      console.log('child ')
       dragOver.appendChild(draggedEl);
       dragOver.setAttribute('data-card-track', updatedTrackng);
     }
@@ -282,7 +279,6 @@ function updateProjectData() {
   let projectStore;
   if (projectDataAvailable) {
     projectStore = JSON.parse(localStorage.getItem('projectStore'));
-    console.log(projectStore.runningColCount);
   }
   let update;
   let projectData = [];
@@ -330,7 +326,7 @@ function buildRetrievedProject() {
         <div id="cards-${col.colNumber}" class="cardsContainer" data-track="${col.tracking}">
           ${col.cards.map((card, i) =>
             `<div id="card-${card.cardNumber}" class="card" draggable="true" data-card-track="${col.tracking}">
-              <div id="card-text-${card.cardNumber}" class="card-text">${card.cardText}</div>
+                <div id="card-text-${card.cardNumber}" class="card-text">${card.cardText}</div>
               <button id="open-card-menu-${card.cardNumber}" class="open-card-menu-btn card-btn" title="Open card edit menu">
                 <img src="images/noun_ellipsis_869758 no attribute.svg" alt="Open card edit menu" />
               </button>
@@ -368,7 +364,6 @@ function saveProjectTitle() {
     alert('Please enter a project title');
   } else {
     update = new Project(projectTitle, projectStore.data);
-    //console.log(update)
     localStorage.setItem('projectStore', JSON.stringify(update));
     printProjectTitle(projectTitle);
   }
@@ -510,7 +505,6 @@ function openAddColumn(column) {
 }
 function addColumn(newColTitle, newColTracking) {
   const projectStore = JSON.parse(localStorage.getItem('projectStore'));
-  console.log(projectStore.runningColCount)
   const addColDiv = document.getElementById('add-col-div');
   const newColNumber = parseInt(projectStore.runningColCount) + 1;
   const columnHTML = `
@@ -532,7 +526,6 @@ function addColumn(newColTitle, newColTracking) {
   closeModal();
   let update = new Project(projectStore.title, projectStore.data, newColNumber);
   localStorage.setItem('projectStore', JSON.stringify(update));
-  console.log(JSON.parse(localStorage.getItem('projectStore')));
   updateProgress();
 }
 function openDeleteWarning(column) {
@@ -590,14 +583,13 @@ function updateCardText(card) {
 function deleteCard(card) {
   let deleteConfirm = confirm('This will remove this card from the project');
   const cardContainer = document.getElementById('cards-' + card);
-  //console.log(cardContainer)
   let cardToDelete = document.getElementById('card-' + card);
   if (deleteConfirm) {
     cardToDelete.parentNode.removeChild(cardToDelete);
     closeSubMenu();
     updateProgress();
   } else {
-    //console.log('nowt deleted');
+    // Do nothing
   }
 }
 function openModal() {
