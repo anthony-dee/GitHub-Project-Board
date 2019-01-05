@@ -317,7 +317,7 @@ function buildRetrievedProject() {
     columns[0].parentNode.removeChild(columns[0]);
   }
   const projectHTML = `${projectData.data.map((col, i) =>
-      `<div id="stage-${col.colNumber}" class="stageColumn col ${col.tracking}-gradient ${col.tracking}-border" data-track="${col.tracking}" draggable="true">
+      `<div id="stage-${col.colNumber}" class="col ${col.tracking}-gradient ${col.tracking}-border" data-track="${col.tracking}" draggable="true">
         <div class="colHeader">
           <div id="total-${col.colNumber}" class="total ${col.tracking}-border"></div><h2 class="col-name">${col.colTitle}</h2>
           <button id="addCard-${col.colNumber}" class="add-card-btn col-btn" title="Add a card to this column">
@@ -512,10 +512,9 @@ function addColumn(newColTitle, newColTracking) {
   const projectStore = JSON.parse(localStorage.getItem('projectStore'));
   console.log(projectStore.runningColCount)
   const addColDiv = document.getElementById('add-col-div');
-  const currentCols = document.getElementsByClassName('stageColumn');
   const newColNumber = parseInt(projectStore.runningColCount) + 1;
   const columnHTML = `
-  <div id="stage-${newColNumber}" class="stageColumn col ${newColTracking}-gradient ${newColTracking}-border" data-track="${newColTracking}" draggable="true">
+  <div id="stage-${newColNumber}" class="col ${newColTracking}-gradient ${newColTracking}-border" data-track="${newColTracking}" draggable="true">
     <div class="colHeader">
       <div id="total-${newColNumber}" class="total ${newColTracking}-border">0</div><h2 class="col-name">${newColTitle}</h2>
       <button id="addCard-${newColNumber}" class="add-card-btn col-btn" title="Add a card to this column">
