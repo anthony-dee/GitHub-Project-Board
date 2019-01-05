@@ -320,7 +320,7 @@ function buildRetrievedProject() {
             <img src="https://res.cloudinary.com/anthony-dee/image/upload/v1546548847/noun_Plus_869750_no_attribute.svg" alt="Add a card to this column" />
           </button>
           <button id="open-col-menu-${col.colNumber}" class="open-col-menu-btn col-btn" title="Open column edit menu">
-            <img src="images/noun_ellipsis_869758 no attribute.svg" alt="Open column edit menu" />
+            <img src="https://res.cloudinary.com/anthony-dee/image/upload/v1546548847/noun_ellipsis_869758_no_attribute.svg" alt="Open column edit menu" />
           </button>
         </div>
         <div id="cards-${col.colNumber}" class="cardsContainer" data-track="${col.tracking}">
@@ -328,7 +328,7 @@ function buildRetrievedProject() {
             `<div id="card-${card.cardNumber}" class="card" draggable="true" data-card-track="${col.tracking}">
                 <div id="card-text-${card.cardNumber}" class="card-text">${card.cardText}</div>
               <button id="open-card-menu-${card.cardNumber}" class="open-card-menu-btn card-btn" title="Open card edit menu">
-                <img src="images/noun_ellipsis_869758 no attribute.svg" alt="Open card edit menu" />
+                <img src="https://res.cloudinary.com/anthony-dee/image/upload/v1546548847/noun_ellipsis_869758_no_attribute.svg" alt="Open card edit menu" />
               </button>
             </div>`
           ).join('')}
@@ -515,7 +515,7 @@ function addColumn(newColTitle, newColTracking) {
         <img src="https://res.cloudinary.com/anthony-dee/image/upload/v1546548847/noun_Plus_869750_no_attribute.svg" alt="Add a card to this column" />
       </button>
       <button id="open-col-menu-${newColNumber}" class="open-col-menu-btn col-btn" title="Open column edit menu">
-        <img src="images/noun_ellipsis_869758 no attribute.svg" alt="Open column edit menu" />
+        <img src="https://res.cloudinary.com/anthony-dee/image/upload/v1546548847/noun_ellipsis_869758_no_attribute.svg" alt="Open column edit menu" />
       </button>
     </div>
     <div id="cards-${newColNumber}" class="cardsContainer" data-track="${newColTracking}">
@@ -643,7 +643,7 @@ function addCard(column){
     <div id="card-${newCardNo}" class="card" draggable="true" data-card-track="${colTracking}">
       <div id="card-text-${newCardNo}" class="card-text">${newNoteText}</div>
       <button id="open-card-menu-${newCardNo}" class="open-card-menu-btn card-btn" title="Open card edit menu">
-        <img src="images/noun_ellipsis_869758 no attribute.svg" alt="Open card edit menu" />
+        <img src="https://res.cloudinary.com/anthony-dee/image/upload/v1546548847/noun_ellipsis_869758_no_attribute.svg" alt="Open card edit menu" />
       </button>
     </div>
   `;
