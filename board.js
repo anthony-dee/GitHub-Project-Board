@@ -330,7 +330,7 @@ function buildRetrievedProject() {
         <div id="cards-${col.colNumber}" class="cardsContainer" data-track="${col.tracking}">
           ${col.cards.map((card, i) =>
             `<div id="card-${card.cardNumber}" class="card" draggable="true" data-card-track="${col.tracking}">
-              <p id="card-text-${card.cardNumber}">${card.cardText}</p>
+              <div id="card-text-${card.cardNumber}" class="card-text">${card.cardText}</div>
               <button id="open-card-menu-${card.cardNumber}" class="open-card-menu-btn card-btn" title="Open card edit menu">
                 <img src="images/noun_ellipsis_869758 no attribute.svg" alt="Open card edit menu" />
               </button>
@@ -649,7 +649,7 @@ function addCard(column){
   const addCardDiv = document.getElementById('add-card-div-' + column);
   const cardTemplate = `
     <div id="card-${newCardNo}" class="card" draggable="true" data-card-track="${colTracking}">
-      <p id="card-text-${newCardNo}">${newNoteText}</p>
+      <div id="card-text-${newCardNo}" class="card-text">${newNoteText}</div>
       <button id="open-card-menu-${newCardNo}" class="open-card-menu-btn card-btn" title="Open card edit menu">
         <img src="images/noun_ellipsis_869758 no attribute.svg" alt="Open card edit menu" />
       </button>

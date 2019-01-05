@@ -144,6 +144,7 @@ textarea {
 }
 .card {
   display: flex;
+  align-items: center;
   background-color: #ededed;
   margin: 10px;
   border: 2px solid #B2B2B2;
@@ -159,6 +160,9 @@ textarea {
   resize: vertical;
   height: 100%;
   width: 100%;
+}
+.card-text {
+  width: 80%;
 }
 .open-card-menu-btn {
   margin-left: auto;
