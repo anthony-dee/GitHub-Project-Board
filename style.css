@@ -41,6 +41,8 @@ textarea {
 }
 #project {
   padding: 10px 5px;
+  overflow-x: scroll;
+  margin: 1em 0;
 }
 #project-header {
   display: flex;
